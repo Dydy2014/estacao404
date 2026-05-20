@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Estação Fantasma 404</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* RESET */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* BODY */
+
+body{
+
+    background:#050505;
+
+    overflow:auto;
+
+    font-family:'Orbitron',sans-serif;
+
+    color:white;
+
+}
+
+/* FUNDO */
+
+.background{
+
+    position:fixed;
+
+    width:100%;
+    height:100%;
+
+    background:
+    linear-gradient(rgba(255,0,0,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,0,0,0.05) 1px, transparent 1px);
+
+    background-size:40px 40px;
+
+    animation:gridMove 10s linear infinite;
+
+    z-index:-5;
+
+}
+
+@keyframes gridMove{
+
+    from{
+        transform:translateY(0);
+    }
+
+    to{
+        transform:translateY(40px);
+    }
+
+}
+
+/* SCANLINE */
+
+.scanline{
+
+    position:fixed;
+
+    top:-10px;
+    left:0;
+
+    width:100%;
+    height:6px;
+
+    background:rgba(255,0,0,0.08);
+
+    animation:scan 4s linear infinite;
+
+    pointer-events:none;
+
+    z-index:100;
+
+}
+
+@keyframes scan{
+
+    from{
+        top:-10px;
+    }
+
+    to{
+        top:100%;
+    }
+
+}
+
+/* GLITCH */
+
+.glitch{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(255,0,0,0.03);
+
+    pointer-events:none;
+
+    animation:glitch 0.15s infinite;
+
+    z-index:50;
+
+}
+
+@keyframes glitch{
+
+    0%{
+        transform:translate(0);
+    }
+
+    25%{
+        transform:translate(-2px,2px);
+    }
+
+    50%{
+        transform:translate(2px,-2px);
+    }
+
+    75%{
+        transform:translate(-1px,1px);
+    }
+
+    100%{
+        transform:translate(0);
+    }
+
+}
+
+/* STATUS */
+
+.status-bar{
+
+    width:100%;
+
+    background:rgba(0,0,0,0.85);
+
+    border-bottom:1px solid rgba(255,0,0,0.3);
+
+    padding:15px;
+
+    display:flex;
+
+    justify-content:space-around;
+
+    align-items:center;
+
+    color:#ff4444;
+
+    font-size:14px;
+
+    letter-spacing:2px;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:999;
+
+}
+
+/* CONTAINER */
+
+.container{
+
+    width:100%;
+
+    min-height:calc(100vh - 60px);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:flex-start;
+
+    overflow:scroll;
+
+    padding:20px;
+
+}
+
+/* MAPA */
+
+.map-container{
+
+    background:rgba(0,0,0,0.7);
+
+    border:2px solid rgba(255,0,0,0.25);
+
+    padding:10px;
+
+    box-shadow:0 0 30px rgba(255,0,0,0.2);
+
+}
+
+/* IMAGEM */
+
+.map-container img{
+
+    width:auto;
+
+    max-width:none;
+
+    height:auto;
+
+    display:block;
+
+}
+
+/* TERMINAL */
+
+.terminal{
+
+    position:fixed;
+
+    left:20px;
+    bottom:20px;
+
+    width:320px;
+    height:180px;
+
+    background:black;
+
+    border:1px solid rgba(255,0,0,0.4);
+
+    padding:15px;
+
+    color:#ff4444;
+
+    overflow:hidden;
+
+    font-size:12px;
+
+    box-shadow:0 0 20px rgba(255,0,0,0.25);
+
+}
+
+/* LINHAS TERMINAL */
+
+.line{
+
+    margin-bottom:10px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    animation:typing 4s steps(40,end);
+
+}
+
+@keyframes typing{
+
+    from{
+        width:0;
+    }
+
+    to{
+        width:100%;
+    }
+
+}
+
+/* ALERTA */
+
+.alert{
+
+    position:fixed;
+
+    right:20px;
+    bottom:20px;
+
+    background:black;
+
+    border:1px solid red;
+
+    padding:15px 20px;
+
+    color:red;
+
+    letter-spacing:3px;
+
+    animation:pulse 1s infinite;
+
+    box-shadow:0 0 20px rgba(255,0,0,0.3);
+
+}
+
+@keyframes pulse{
+
+    0%{
+        box-shadow:0 0 5px red;
+    }
+
+    50%{
+        box-shadow:0 0 20px red;
+    }
+
+    100%{
+        box-shadow:0 0 5px red;
+    }
+
+}
+
+/* TELA INICIAL */
+
+#startScreen{
+
+    position:fixed;
+
+    inset:0;
+
+    background:black;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-align:center;
+
+    color:red;
+
+    font-size:32px;
+
+    letter-spacing:5px;
+
+    z-index:9999;
+
+    cursor:pointer;
+
+    animation:flicker 2s infinite;
+
+}
+
+@keyframes flicker{
+
+    0%,18%,22%,25%,53%,57%,100%{
+        opacity:1;
+    }
+
+    20%,24%,55%{
+        opacity:0.4;
+    }
+
+}
+
+/* RESPONSIVO */
+
+@media(max-width:700px){
+
+    .status-bar{
+
+        flex-direction:column;
+
+        gap:10px;
+
+        font-size:12px;
+
+    }
+
+    .terminal{
+
+        width:90%;
+
+        left:5%;
+
+        height:150px;
+
+    }
+
+    #startScreen{
+
+        font-size:22px;
+
+        padding:20px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- TELA -->
+
+<div id="startScreen">
+
+CLIQUE PARA ENTRAR NA ESTAÇÃO
+
+</div>
+
+<!-- FUNDO -->
+
+<div class="background"></div>
+
+<div class="scanline"></div>
+
+<div class="glitch"></div>
+
+<!-- STATUS -->
+
+<div class="status-bar">
+
+<div>STATUS: ONLINE</div>
+
+<div>SETOR: 404-Ω</div>
+
+<div id="energia">ENERGIA: 100%</div>
+
+<div>ACESSO: RESTRITO</div>
+
+</div>
+
+<!-- MAPA -->
+
+<div class="container">
+
+<div class="map-container">
+
+<!-- SUA IMAGEM -->
+
+<img src="mapa.png" alt="Mapa da Estação">
+
+</div>
+
+</div>
+
+<!-- TERMINAL -->
+
+<div class="terminal">
+
+<div class="line">[ SISTEMA INICIADO ]</div>
+
+<div class="line">Conectando à central...</div>
+
+<div class="line">Monitoramento ONLINE</div>
+
+<div class="line">Câmeras operacionais</div>
+
+<div class="line">Linhas subterrâneas ativas</div>
+
+<div class="line">ALERTA: setor restrito aberto</div>
+
+</div>
+
+<!-- ALERTA -->
+
+<div class="alert">
+
+⚠ ÁREA RESTRITA
+
+</div>
+
+<!-- ÁUDIOS -->
+
+<audio id="radio" loop>
+<source src="radio.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="ventilacao" loop>
+<source src="ventilacao.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="metro" loop>
+<source src="metro.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="glitchAudio" loop>
+<source src="glitch.mp3" type="audio/mpeg">
+</audio>
+
+<!-- ALARME -->
+
+<audio id="alarme">
+<source src="alarme.mp3" type="audio/mpeg">
+</audio>
+
+<!-- SCRIPT -->
+
+<script>
+
+/* TELA */
+
+const startScreen = document.getElementById("startScreen");
+
+/* AUDIOS */
+
+const radio = document.getElementById("radio");
+
+const ventilacao = document.getElementById("ventilacao");
+
+const metro = document.getElementById("metro");
+
+const glitchAudio = document.getElementById("glitchAudio");
+
+const alarme = document.getElementById("alarme");
+
+/* ENERGIA */
+
+let bateria = 100;
+
+const energia = document.getElementById("energia");
+
+/* INICIAR */
+
+startScreen.addEventListener("click", () => {
+
+    /* VOLUMES */
+
+    radio.volume = 0.18;
+
+    ventilacao.volume = 0.40;
+
+    metro.volume = 0.10;
+
+    glitchAudio.volume = 0.05;
+
+    alarme.volume = 0.07;
+
+    /* PLAY */
+
+    radio.play();
+
+    ventilacao.play();
+
+    metro.play();
+
+    glitchAudio.play();
+
+    /* ESCONDER TELA */
+
+    startScreen.style.display = "none";
+
+});
+
+/* ENERGIA */
+
+setInterval(() => {
+
+    bateria--;
+
+    if(bateria < 0){
+
+        bateria = 100;
+
+    }
+
+    energia.innerHTML = "ENERGIA: " + bateria + "%";
+
+    if(bateria <= 50){
+
+        energia.style.color = "orange";
+
+    }
+
+    if(bateria <= 25){
+
+        energia.style.color = "red";
+
+    }
+
+    if(bateria <= 10){
+
+        energia.style.animation = "pulse 0.5s infinite";
+
+    }
+
+}, 40000);
+
+/* ALARME A CADA 5 MINUTOS */
+
+setInterval(() => {
+
+    alarme.currentTime = 0;
+
+    alarme.play();
+
+}, 300000);
+
+</script>
+
+</body>
+
+</html>
